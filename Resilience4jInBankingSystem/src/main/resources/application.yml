@@ -1,0 +1,37 @@
+logging:
+  level:
+    io.github.resilience4j.circuitbreaker: DEBUG
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        registerHealthIndicator: true
+        slidingWindowSize: 2  # بررسی دو درخواست
+        failureRateThreshold: 50  # آستانه شکست 50 درصد
+        waitDurationInOpenState: 10s  # مدت زمانی که Circuit Breaker در حالت OPEN باقی می‌ماند
+        permittedNumberOfCallsInHalfOpenState: 1  # تعداد درخواست‌های مجاز در حالت HALF_OPEN
+        slidingWindowType: COUNT_BASED  # بررسی تعداد درخواست‌ها
+        minimumNumberOfCalls: 2  # حداقل تعداد تماس‌ها برای فعال‌سازی شکست
+
+  ratelimiter:
+    configs:
+      default:
+        limitForPeriod: 10
+        timeoutDuration: 5s
+        limitRefreshPeriod: 10s
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 1000ms
+  bulkhead:
+    configs:
+      default:
+        maxConcurrentCalls: 5
+        maxWaitDuration: 0s
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 2s
