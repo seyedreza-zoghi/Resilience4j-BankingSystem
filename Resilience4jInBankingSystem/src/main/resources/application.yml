@@ -22,6 +22,11 @@ resilience4j:
   ratelimiter:
     instances:
       callExternalServiceRateLimiter:
-        limit-for-period: 3 # تعداد درخواست‌های مجاز در هر بازه زمانی
+        limit-for-period: 1 # تعداد درخواست‌های مجاز در هر بازه زمانی
         limit-refresh-period: 10s # بازه زمانی که در آن درخواست‌ها محدود می‌شوند
         timeout-duration: 1s # حداکثر زمانی که درخواست منتظر می‌ماند تا محدودیت برداشته ش
+  timelimiter:
+    instances:
+      callExternalServiceTimeLimiter:
+        timeout-duration: 2s  # مدت زمانی که متد می‌تواند اجرا شود
+        cancel-running-future: true  # لغو عملیات در حال اجرا در صورت تجاوز از زمان تعیین‌شده
