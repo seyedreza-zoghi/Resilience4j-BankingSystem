@@ -30,3 +30,8 @@ resilience4j:
       callExternalServiceTimeLimiter:
         timeout-duration: 2s  # مدت زمانی که متد می‌تواند اجرا شود
         cancel-running-future: true  # لغو عملیات در حال اجرا در صورت تجاوز از زمان تعیین‌شده
+  bulkhead:
+    instances:
+      callExternalServiceBulkhead:
+        max-concurrent-calls: 1  # حداکثر ۱۰ درخواست همزمان برای این سرویس
+        max-wait-duration: 1s  # مدت‌زمانی که درخواست‌ها در صف منتظر می‌مانند

@@ -2,6 +2,7 @@ package com.rz.resilience4jinbankingsystem.controller;
 
 
 import com.rz.resilience4jinbankingsystem.service.CountriesService;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -44,7 +45,7 @@ public class CountriesController {
 
     @GetMapping("/timeLimiter")
     @TimeLimiter(name = "callExternalServiceTimeLimiter", fallbackMethod = "fallbackResponseTimeLimiter")
-    public CompletableFuture<String> callExternalService() {
+    public CompletableFuture<String> callExternalServiceTimeLimiter() {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(5000);
@@ -56,6 +57,12 @@ public class CountriesController {
     }
 
 
+    @GetMapping("/bulkhead")
+    @Bulkhead(name = "callExternalServiceBulkhead", fallbackMethod = "fallbackResponse")
+    public String callExternalServiceBulkhead() throws InterruptedException {
+        Thread.sleep(1000);
+        return "Request processed!";
+    }
     public String fallbackResponse(Exception e) {
         return "Fallback response: " + e.getMessage();
     }
