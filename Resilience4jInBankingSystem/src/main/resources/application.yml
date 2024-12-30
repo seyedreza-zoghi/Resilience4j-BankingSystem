@@ -1,13 +1,21 @@
 
 server:
-  port: 9090
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      registerHealthIndicator: true
-      slidingWindowSize: 5
-      minimumNumberOfCalls: 2
-      permittedNumberOfCallsInHalfOpenState: 1
-      automaticTransitionFromOpenToHalfOpenEnabled: true
-      waitDurationInOpenState: 2s
-      failureRateThreshold: 50
+  port: 1010
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 2
+        permittedNumberOfCallsInHalfOpenState: 1
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 2s
+        failureRateThreshold: 50
+  retry:
+    instances:
+      callExternalServiceRetry:
+        maxAttempts: 2 # حداکثر تعداد تلاش‌ها
+        waitDuration: 1s # مدت زمان انتظار بین تلاش‌ها
+        retryExceptions:
+            - org.springframework.web.client.ResourceAccessException # خطاهایی که باعث Retry می‌شون
