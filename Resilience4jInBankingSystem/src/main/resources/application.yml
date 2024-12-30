@@ -19,3 +19,9 @@ resilience4j:
         waitDuration: 1s # مدت زمان انتظار بین تلاش‌ها
         retryExceptions:
             - org.springframework.web.client.ResourceAccessException # خطاهایی که باعث Retry می‌شون
+  ratelimiter:
+    instances:
+      callExternalServiceRateLimiter:
+        limit-for-period: 3 # تعداد درخواست‌های مجاز در هر بازه زمانی
+        limit-refresh-period: 10s # بازه زمانی که در آن درخواست‌ها محدود می‌شوند
+        timeout-duration: 1s # حداکثر زمانی که درخواست منتظر می‌ماند تا محدودیت برداشته ش
